@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\CustomException;
 use App\Models\User;
 use App\Notifications\ForgetPassword;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -41,6 +42,33 @@ class AuthService
 
         return [
             'message' => __('messages.forgotPassword') 
+        ];
+    }
+
+    public function resetPassword($inputs = [])
+    {
+        $user = $this->user->whereEmail($inputs['email'])->firstOrFail();
+
+        if (empty($user->otp)) {
+            throw new CustomException(__('messages.invalidCode'), 400);
+        }
+
+        if ($user->otp != $inputs['code']) {
+            throw new CustomException(__('messages.invalidCode'), 400);
+        }
+
+        if (strtotime($user->otp_expired_at) < strtotime(Carbon::now())) {
+            throw new CustomException(__('messages.expiredCode'), 400);
+        }
+
+        $user->update([
+            'otp' => null,
+            'otp_expired_at' => null,
+            'password' => Hash::make($inputs['password'])
+        ]);
+
+        return [
+            'message' => __('messages.passwordUpdated')
         ];
     }
 }
