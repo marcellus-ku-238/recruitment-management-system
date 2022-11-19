@@ -17,6 +17,18 @@ class AuthService
         $this->user = $user;
     }
 
+    public function signIn($inputs = [])
+    {
+        return User::create([
+            'email' => $inputs['email'],
+            'name' => $inputs['name'],
+            'password' => (empty($inputs['password'])) ? null : Hash::make($inputs['password']),
+            'role' => $inputs['role'],
+            'gmail_id' => $inputs['gmailId'] ?? null,
+            'linked_in_id' => $inputs['linkedInId'] ?? null
+        ]);
+    }
+
     public function login($inputs = [])
     {
         if ($inputs['login_type'] === 'gmail') {
