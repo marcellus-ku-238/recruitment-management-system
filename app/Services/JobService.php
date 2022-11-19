@@ -33,7 +33,8 @@ class JobService
     public function update($id, $inputs = [])
     {
         $job = $this->resource($id);
-        return $job->update($inputs);
+        $job->update($inputs);
+        return $job;
     }
 
     public function destroy($id)

@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
+use App\Services\JobService;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use App\Http\Requests\Job\Upsert;
+use App\Http\Controllers\Controller;
 
 class JobController extends Controller
 {
     use ApiResponser;
     protected $service;
 
-    public function __construct($service)
+    public function __construct(JobService $service)
     {
         $this->service = $service;
     }
@@ -22,27 +24,27 @@ class JobController extends Controller
         return $this->success($jobs);
     }
 
-    public function store($request)
+    public function store(Upsert $request)
     {
-        $job = $this->service->create($request->validated());
+        $job = $this->service->store($request->validated());
         return $this->success($job);
     }
 
-    public function show($id, Request $request)
+    public function show($job, Request $request)
     {
-        $job = $this->service->resource($id, $request->all()); 
+        $job = $this->service->resource($job, $request->all()); 
         return $this->success($job);
     }
 
-    public function update($id, Request $request)
+    public function update($job, Upsert $request)
     {
-        $job = $this->service->update($id, $request->validated()); 
+        $job = $this->service->update($job, $request->validated()); 
         return $this->success($job);
     }
 
-    public function destroy($id)
+    public function destroy($job)
     {
-        $data = $this->service->destroy($id); 
+        $data = $this->service->destroy($job); 
         return $this->success($data);
     }
 }
