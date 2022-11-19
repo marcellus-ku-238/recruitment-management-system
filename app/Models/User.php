@@ -64,4 +64,9 @@ class User extends Authenticatable
         $this->otp_expired_at = Carbon::now()->addMinutes('15');
         $this->save();
     }
+
+    public function appliedJobs()
+    {
+        return $this->belongsToMany(JobDescription::class);
+    }
 }

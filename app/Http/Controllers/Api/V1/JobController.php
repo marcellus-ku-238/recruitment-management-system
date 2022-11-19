@@ -48,10 +48,4 @@ class JobController extends Controller
         $data = $this->service->destroy($job); 
         return $this->success($data);
     }
-
-    public function applyJob(Apply $request)
-    {
-        $data = $this->service->applyJob($request->validated());
-        return $this->success($data);
-    }
 }

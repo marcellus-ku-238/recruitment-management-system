@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Job;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Apply extends FormRequest
+class ApplyJob extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

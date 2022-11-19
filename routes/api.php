@@ -38,7 +38,7 @@ Route::group([
         Route::group([
             'middleware' => 'role:interviewer'
         ], function () {
-            Route::get('jobs/{job}/apply', 'JobController@applyJob')->name('jobs.applyJob');
+            Route::post('job-application', 'UserController@applyJob')->name('users.applyJob');
         });
 
         Route::group([

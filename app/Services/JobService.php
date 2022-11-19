@@ -49,7 +49,7 @@ class JobService
     public function applyJob($id)
     {
         $job = $this->resource($id);
-        $job->applicants(auth()->id());
+        $job->applicants()->attach(auth()->id());
         return [
             'message' => 'Job applied successfully.'
         ];
