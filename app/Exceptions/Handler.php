@@ -2,11 +2,14 @@
 
 namespace App\Exceptions;
 
+use App\Traits\ApiResponser;
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ApiResponser;
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -47,4 +50,14 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, $exception)
+    {
+        if($exception instanceof CustomException) {
+            return $this->error($exception->getMessage(), 400);
+        }
+
+        return parent::render($request, $exception);
+    }
+
 }
