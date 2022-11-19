@@ -40,7 +40,7 @@ class JobService
     public function destroy($id)
     {
         $job = $this->resource($id);
-        $job->destroy();
+        $job->delete();
         return [
             'message' => 'Entity deleted successfully.'
         ];
