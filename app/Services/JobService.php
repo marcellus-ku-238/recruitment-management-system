@@ -21,7 +21,7 @@ class JobService
 
     public function store($inputs = [])
     {
-        // 'Entity deleted successfully.'
+        return JobDescription::create($inputs);
     }
 
     public function resource($id, $inputs = [])
