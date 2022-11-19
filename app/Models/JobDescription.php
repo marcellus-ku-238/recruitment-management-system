@@ -40,8 +40,18 @@ class JobDescription extends Model
         'deleted_at'
     ];
 
+    protected $appends = [
+        'applicants_count',
+    ];
+
+
     public function applicants()
     {
-        return $this->belongsToMany(JobDescription::class);
+        return $this->belongsToMany(User::class);
+    }
+
+    public function getApplicantsCountAttribute()
+    {
+        return $this->applicants()->count() ?? 0;
     }
 }
