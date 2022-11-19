@@ -35,6 +35,8 @@ class AuthService
     {
         $user = $this->user->whereEmail($inputs['email'])->firstOrFail();
 
+        $user->createOtp();
+
         $user->notify(new ForgetPassword($user));
 
         return [

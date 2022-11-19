@@ -44,4 +44,10 @@ class User extends Authenticatable
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp'
     ];
+
+    public function createOtp()
+    {
+        $this->otp = rand(1001,9999);
+        $this->save();
+    }
 }
