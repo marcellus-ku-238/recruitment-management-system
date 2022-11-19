@@ -39,4 +39,9 @@ class JobDescription extends Model
     protected $hidden = [
         'deleted_at'
     ];
+
+    public function applicants()
+    {
+        return $this->belongsToMany(JobDescription::class);
+    }
 }

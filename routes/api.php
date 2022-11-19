@@ -21,34 +21,39 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group([
     'namespace' => 'App\Http\Controllers\Api\V1'
-], function() {
-    
+], function () {
+
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('sign-in', 'AuthController@signIn')->name('signIn');
     Route::post('forget-password', 'AuthController@forgetPassword')->name('forgetPassword');
     Route::post('reset-password', 'AuthController@resetPassword')->name('resetPassword');
-    
-    
+
+
     Route::group([
         'middleware' => 'auth:sanctum'
-    ], function ()
-    {
+    ], function () {
         Route::post('me', 'AuthController@me')->name('me');
         Route::post('logout', 'AuthController@logout')->name('logout');
 
         Route::group([
             'middleware' => 'role:interviewer'
-        ], function() {
-            Route::post('interviewer-route', 'AuthController@me')->name('me');
-            Route::apiResource('jobs', 'JobController');
+        ], function () {
+            Route::get('jobs/{job}/apply', 'JobController@applyJob')->name('jobs.applyJob');
+        });
+
+        Route::group([
+            'middleware' => 'role:interviewer,recruiter'
+        ], function () {
+            Route::get('jobs', 'JobController@index');
+            Route::get('jobs/{job}', 'JobController@show');
         });
 
         Route::group([
             'middleware' => 'role:recruiter'
-        ], function() {
-            Route::post('recruiter-route', 'AuthController@me')->name('me');    
+        ], function () {
+            Route::post('jobs', 'JobController@store');
+            Route::delete('jobs/{job}', 'JobController@destroy');
+            Route::put('jobs/{job}', 'JobController@update');
         });
-
     });
-
 });

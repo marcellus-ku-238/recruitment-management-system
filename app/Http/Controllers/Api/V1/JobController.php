@@ -7,6 +7,7 @@ use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use App\Http\Requests\Job\Upsert;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Job\Apply;
 
 class JobController extends Controller
 {
@@ -45,6 +46,12 @@ class JobController extends Controller
     public function destroy($job)
     {
         $data = $this->service->destroy($job); 
+        return $this->success($data);
+    }
+
+    public function applyJob(Apply $request)
+    {
+        $data = $this->service->applyJob($request->validated());
         return $this->success($data);
     }
 }
