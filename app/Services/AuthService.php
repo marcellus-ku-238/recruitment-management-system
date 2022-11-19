@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\CustomException;
 use App\Models\User;
+use App\Notifications\ForgetPassword;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -27,6 +28,17 @@ class AuthService
         return [
             'user' => $user,
             'token' => $user->createToken(config('app.name'))->plainTextToken
+        ];
+    }
+
+    public function forgetPassword($inputs = [])
+    {
+        $user = $this->user->whereEmail($inputs['email'])->firstOrFail();
+
+        $user->notify(new ForgetPassword($user));
+
+        return [
+            'message' => __('messages.forgotPassword') 
         ];
     }
 }
