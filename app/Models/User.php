@@ -28,7 +28,9 @@ class User extends Authenticatable
         'otp_expired_at',
         'socialId',
         'profile',
-        'password'
+        'password',
+        'gmail_id',
+        'linked_in_id'
     ];
 
     /**
@@ -39,7 +41,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'deleted_at'
+        'deleted_at',
+        'gmail_id',
+        'linked_in_id'
     ];
 
     /**

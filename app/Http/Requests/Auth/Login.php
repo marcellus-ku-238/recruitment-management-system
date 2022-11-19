@@ -25,7 +25,10 @@ class Login extends FormRequest
     {
         return [
             'email' => 'required|email|max:255',
-            'password' => 'required|max:255'
+            'password' => 'required|max:255',
+            'login_type' => 'required|in:default,gmail,linked-in',
+            'gmailId' => 'required_if:login_type,gmail',
+            'linkedInId' => 'required_if:login_type,linked-in'
         ];
     }
 }

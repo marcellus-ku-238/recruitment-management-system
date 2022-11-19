@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('email', 255)->unique();
             $table->string('otp', 8)->nullable();
             $table->datetime('otp_expired_at')->nullable();
-            $table->string('socialId', 512)->nullable();
+            $table->string('gmail_id', 512)->nullable();
+            $table->string('linked_in_id', 512)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('profile', 512)->nullable();
             $table->string('password', 255)->nullable();

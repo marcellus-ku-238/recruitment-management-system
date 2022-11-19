@@ -19,6 +19,14 @@ class AuthService
 
     public function login($inputs = [])
     {
+        if ($inputs['login_type'] === 'gmail') {
+            return $this->gmailLogin($inputs);
+        }
+
+        if ($inputs['login_type'] === 'linked-in') {
+            return $this->linkedInLogin($inputs);
+        }
+
         $user = $this->user
                     ->whereEmail($inputs['email'])->first();
 
@@ -83,6 +91,64 @@ class AuthService
         auth()->user()->currentAccessToken()->delete();
         return [
             'message' => __('messages.logoutSucceed')
+        ];
+    }
+
+    public function gmailLogin($inputs = [])
+    {
+        $user = $this->user
+                ->whereEmail($inputs['email'])
+                ->whereGmailId($inputs['gmailId'])
+                ->first();
+
+        if (!empty($user)) {
+            return [
+                'user' => $user,
+                'token' => $user->createToken(config('app.name'))->plainTextToken
+            ];
+        }
+
+        $user = $this->user
+                ->whereEmail($inputs['email'])
+                ->first();
+        
+        if (!empty($user) && empty($user->gmailId)) {
+            $user->gmail_id = $inputs['gmailId'];
+            $user->save();
+        }
+
+        return [
+            'user' => $user,
+            'token' => $user->createToken(config('app.name'))->plainTextToken
+        ];
+    }
+
+    public function linkedInLogin($inputs = [])
+    {
+        $user = $this->user
+                ->whereEmail($inputs['email'])
+                ->wherelinkedInId($inputs['linkedInId'])
+                ->first();
+
+        if (!empty($user)) {
+            return [
+                'user' => $user,
+                'token' => $user->createToken(config('app.name'))->plainTextToken
+            ];
+        }
+
+        $user = $this->user
+                ->whereEmail($inputs['email'])
+                ->first();
+        
+        if (!empty($user) && empty($user->linkedInId)) {
+            $user->linked_in_id = $inputs['linkedInId'];
+            $user->save();
+        }
+
+        return [
+            'user' => $user,
+            'token' => $user->createToken(config('app.name'))->plainTextToken
         ];
     }
 }
