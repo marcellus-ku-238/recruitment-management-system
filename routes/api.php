@@ -39,7 +39,8 @@ Route::group([
         Route::group([
             'middleware' => 'role:interviewer'
         ], function() {
-            Route::post('interviewer-route', 'AuthController@me')->name('me');    
+            Route::post('interviewer-route', 'AuthController@me')->name('me');
+            Route::apiResource('jobs', 'JobController');
         });
 
         Route::group([
