@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use App\Traits\ApiResponser;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -51,10 +53,13 @@ class Handler extends ExceptionHandler
         });
     }
 
-    public function render($request, $exception)
+    public function render($request, Throwable $exception)
     {
-        if($exception instanceof CustomException) {
-            return $this->error($exception->getMessage(), 400);
+        if($exception instanceof ValidationException) {
+            return $this->error([
+                'message' => $exception->getMessage(),
+                'errors' => $exception->errors()
+            ], 400);
         }
 
         return parent::render($request, $exception);
