@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Traits\ApiResponser;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -59,6 +60,12 @@ class Handler extends ExceptionHandler
             return $this->error([
                 'message' => $exception->getMessage(),
                 'errors' => $exception->errors()
+            ], 400);
+        }
+
+        if($exception instanceof ModelNotFoundException) {
+            return $this->error([
+                'message' => 'Entity not found.'
             ], 400);
         }
 

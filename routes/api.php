@@ -27,5 +27,14 @@ Route::group([
     Route::post('sign-in', 'AuthController@signIn')->name('signIn');
     Route::post('forget-password', 'AuthController@forgetPassword')->name('forgetPassword');
     Route::post('reset-password', 'AuthController@resetPassword')->name('resetPassword');
+    
+    
+    Route::group([
+        'middleware' => 'auth:sanctum'
+    ], function ()
+    {
+        Route::post('me', 'AuthController@me')->name('me');
+        Route::post('logout', 'AuthController@logout')->name('logout');
+    });
 
 });

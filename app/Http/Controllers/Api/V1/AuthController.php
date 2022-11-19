@@ -38,4 +38,16 @@ class AuthController extends Controller
         $data = $this->serivce->resetPassword($request->validated());
         return $this->success($data, 200);
     }
+
+    public function me()
+    {
+        $data = $this->serivce->me();
+        return $this->success($data, 200);
+    }
+
+    public function logout()
+    {
+        $data = $this->serivce->logout();
+        return $this->success($data, 200);
+    }
 }

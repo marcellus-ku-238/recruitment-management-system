@@ -71,4 +71,18 @@ class AuthService
             'message' => __('messages.passwordUpdated')
         ];
     }
+
+    public function me()
+    {
+        $user = $this->user->findorFail(auth()->id());
+        return $user;
+    }
+
+    public function logout()
+    {
+        auth()->user()->currentAccessToken()->delete();
+        return [
+            'message' => __('messages.logoutSucceed')
+        ];
+    }
 }
