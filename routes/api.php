@@ -35,6 +35,19 @@ Route::group([
     {
         Route::post('me', 'AuthController@me')->name('me');
         Route::post('logout', 'AuthController@logout')->name('logout');
+
+        Route::group([
+            'middleware' => 'role:interviewer'
+        ], function() {
+            Route::post('interviewer-route', 'AuthController@me')->name('me');    
+        });
+
+        Route::group([
+            'middleware' => 'role:recruiter'
+        ], function() {
+            Route::post('recruiter-route', 'AuthController@me')->name('me');    
+        });
+
     });
 
 });
