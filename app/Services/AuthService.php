@@ -67,7 +67,7 @@ class AuthService
 
     public function resetPassword($inputs = [])
     {
-        $user = $this->user->whereEmail($inputs['email'])->firstOrFail();
+        $user = $this->user->whereOtp($inputs['code'])->firstOrFail();
 
         if (empty($user->otp)) {
             throw new CustomException(__('messages.invalidCode'), 400);

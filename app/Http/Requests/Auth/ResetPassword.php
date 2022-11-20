@@ -24,7 +24,6 @@ class ResetPassword extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|max:255',
             'code' => 'required|max:8',
             'password' => 'required|max:255',
         ];
