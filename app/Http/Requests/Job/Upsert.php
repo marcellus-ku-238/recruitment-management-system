@@ -32,6 +32,8 @@ class Upsert extends FormRequest
             'employment_type' => 'required|max:64',
             'industry_type' => 'required|max:64',
             'experince' => 'required|max:64',
+            'tags' => 'nullable|array',
+            'tags.*' => 'required|max:64',
         ];
     }
 }

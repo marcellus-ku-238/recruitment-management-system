@@ -21,7 +21,9 @@ class JobService
 
     public function store($inputs = [])
     {
-        return JobDescription::create($inputs);
+        $job = JobDescription::create($inputs);
+        if (!empty($inputs['tags'])) $job->attachTags($inputs['tags']);
+        return $job;
     }
 
     public function resource($id, $inputs = [])
@@ -34,6 +36,7 @@ class JobService
     {
         $job = $this->resource($id);
         $job->update($inputs);
+        if (!empty($inputs['tags'])) $job->syncTags($inputs['tags']);
         return $job;
     }
 
