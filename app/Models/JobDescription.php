@@ -55,4 +55,10 @@ class JobDescription extends Model
     {
         return $this->applicants()->count() ?? 0;
     }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('title', "%$search%")
+                ->orWhere('company_name', "%$search%");
+    }
 }
